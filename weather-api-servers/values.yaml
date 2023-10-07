@@ -1,0 +1,39 @@
+replicaCount: 3
+image:
+  repository: ghcr.io/ldest/sre-course/api
+  pullPolicy: IfNotPresent
+  tag: "c4f3862"
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
+service:
+  type: ClusterIP
+  port: 8088
+autoscaling: {}
+serviceAccount: {}
+variables:
+  ASPNETCORE_URLS: http://*:8088
+  CONNECTIONSTRINGS__PGCONNECTION: server=77.105.185.56; port=5000; database=weather; user id=postgres; password=postgres-pass
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: weather-api.k8s.mts
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+resources: 
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 33m
+    memory: 42Mi
+nodeSelector: {}
+tolerations: []
+affinity: {}
